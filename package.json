@@ -1,0 +1,15 @@
+{
+  "name": "saved-places-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "web": "RUN_BOT=false node src/index.js",
+    "seed": "node scripts/seed-demo.js",
+    "check": "node --check src/index.js && node --check src/telegram.js && node --check src/web.js && node --check src/extractor.js && node --check src/storage.js && node --check src/instagram.js && node --check src/ai-extractor.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

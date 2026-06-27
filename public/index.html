@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Карта сохраненок</title>
+    <link rel="stylesheet" href="/public/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div>
+          <a class="eyebrow" href="https://t.me/cloud_watchers" target="_blank" rel="noreferrer">Земля в иллюминаторе</a>
+          <h1>Карта сохраненок</h1>
+        </div>
+        <span class="badge" id="places-count">0 мест</span>
+      </header>
+
+      <section class="add-panel" id="add-panel">
+        <label for="place-input">Добавить место</label>
+        <textarea id="place-input" rows="3" placeholder="Будапешт: New York Cafe, Szimpla Kert"></textarea>
+        <button id="add-button" type="button">Сохранить</button>
+      </section>
+
+      <section class="toolbar">
+        <input id="search" type="search" placeholder="Поиск по месту или городу">
+        <select id="city-filter" aria-label="Город">
+          <option value="">Все города</option>
+        </select>
+      </section>
+
+      <section id="content" class="content"></section>
+    </main>
+
+    <script src="/public/app.js" type="module"></script>
+  </body>
+</html>
