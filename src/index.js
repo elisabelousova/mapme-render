@@ -34,9 +34,18 @@ server.listen(config.port, config.host, async () => {
   if (!bot) return;
 
   if (config.telegramMode === "webhook") {
+    if (!config.webappUrl.startsWith("https://")) {
+      console.log("WEBAPP_URL must be an HTTPS URL before Telegram webhook can be registered.");
+      return;
+    }
+
     const webhookUrl = `${config.webappUrl.replace(/\/$/, "")}/telegram/webhook/${config.webhookSecret}`;
-    await bot.setWebhook(webhookUrl);
-    console.log("Telegram webhook mode started.");
+    try {
+      await bot.setWebhook(webhookUrl);
+      console.log("Telegram webhook mode started.");
+    } catch (error) {
+      console.error("Telegram webhook registration failed:", error.message);
+    }
     return;
   }
 

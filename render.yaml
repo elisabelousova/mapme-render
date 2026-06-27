@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: saved-places-bot
+    name: mapme-render
     runtime: node
     plan: free
     buildCommand: npm install
