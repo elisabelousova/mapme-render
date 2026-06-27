@@ -29,7 +29,7 @@ export class Store {
     return this.writeQueue;
   }
 
-  getOrCreateUser(from) {
+  async getOrCreateUser(from) {
     const id = String(from.id);
     if (!this.data.users[id]) {
       this.data.users[id] = {
@@ -44,14 +44,15 @@ export class Store {
       this.data.users[id].firstName = from.first_name || this.data.users[id].firstName;
       this.data.users[id].username = from.username || this.data.users[id].username;
     }
+    await this.save();
     return this.data.users[id];
   }
 
-  getUserByToken(token) {
+  async getUserByToken(token) {
     return Object.values(this.data.users).find((user) => user.token === token) || null;
   }
 
-  addPlaces(userId, places) {
+  async addPlaces(userId, places) {
     const user = this.data.users[String(userId)];
     if (!user) throw new Error("User not found");
 
@@ -80,11 +81,13 @@ export class Store {
       user.places.unshift(saved);
       added.push(saved);
     }
+    await this.save();
     return { added, duplicates };
   }
 
-  deleteUser(userId) {
+  async deleteUser(userId) {
     delete this.data.users[String(userId)];
+    await this.save();
   }
 }
 

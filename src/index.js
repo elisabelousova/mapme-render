@@ -1,29 +1,12 @@
 import { config } from "./config.js";
-import { Store } from "./storage.js";
-import { TelegramBot } from "./telegram.js";
 import { createWebServer } from "./web.js";
-import { AiPlaceExtractor } from "./ai-extractor.js";
+import { createRuntime } from "./runtime.js";
 
-const store = new Store(config.dataFile);
-await store.load();
-
-let bot = null;
-const aiExtractor = new AiPlaceExtractor({
-  apiKey: config.openaiApiKey,
-  model: config.openaiModel
-});
-
-if (config.runBot) {
-  bot = new TelegramBot({
-    token: config.botToken,
-    store,
-    webappUrl: config.webappUrl,
-    aiExtractor
-  });
-}
+const runtime = await createRuntime();
+const bot = config.runBot ? runtime.bot : null;
 
 const server = createWebServer({
-  store,
+  store: runtime.store,
   bot,
   webhookSecret: config.webhookSecret
 });
@@ -60,6 +43,6 @@ async function shutdown() {
   console.log("Shutting down...");
   bot?.stop();
   server.close();
-  await store.save();
+  await runtime.store.save();
   process.exit(0);
 }

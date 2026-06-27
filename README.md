@@ -46,6 +46,8 @@ npm run web
 
 Инструкция для Render: [docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md).
 
+Инструкция для Vercel + Supabase: [docs/DEPLOY_VERCEL_SUPABASE.md](docs/DEPLOY_VERCEL_SUPABASE.md).
+
 ## Примеры сообщений боту
 
 ```text

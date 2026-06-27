@@ -65,8 +65,7 @@ export class TelegramBot {
     const message = update.message;
     if (!message || !message.chat || !message.from) return;
 
-    const user = this.store.getOrCreateUser(message.from);
-    await this.store.save();
+    const user = await this.store.getOrCreateUser(message.from);
 
     if (message.text?.startsWith("/")) {
       await this.handleCommand(message, user);
@@ -112,8 +111,7 @@ export class TelegramBot {
     }
 
     if (command === "/delete" && args[0] === "YES") {
-      this.store.deleteUser(user.id);
-      await this.store.save();
+      await this.store.deleteUser(user.id);
       await this.sendMessage(chatId, "Готово, я удалила твои сохраненные места и личную ссылку.");
       return;
     }
@@ -133,8 +131,7 @@ export class TelegramBot {
       return;
     }
 
-    const result = this.store.addPlaces(user.id, candidates);
-    await this.store.save();
+    const result = await this.store.addPlaces(user.id, candidates);
 
     await this.sendMessage(chatId, savedText(result, this.mapUrl(user)), this.mapKeyboard(user));
   }
@@ -197,8 +194,7 @@ export class TelegramBot {
       return;
     }
 
-    const result = this.store.addPlaces(user.id, allCandidates);
-    await this.store.save();
+    const result = await this.store.addPlaces(user.id, allCandidates);
 
     await this.sendMessage(chatId, savedText(result, this.mapUrl(user), notes), this.mapKeyboard(user));
   }
@@ -233,8 +229,7 @@ export class TelegramBot {
         return;
       }
 
-      const result = this.store.addPlaces(user.id, candidates);
-      await this.store.save();
+      const result = await this.store.addPlaces(user.id, candidates);
       await this.sendMessage(chatId, savedText(result, this.mapUrl(user)), this.mapKeyboard(user));
     } catch (error) {
       await this.sendMessage(chatId, `Не получилось распознать скрин: ${error.message}`);

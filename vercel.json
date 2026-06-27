@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    {
+      "source": "/u/:token",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 30
+    }
+  }
+}

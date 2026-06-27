@@ -26,19 +26,18 @@ export function createWebServer({ store, bot, webhookSecret }) {
 
       const userApi = url.pathname.match(/^\/api\/u\/([^/]+)$/);
       if (userApi && req.method === "GET") {
-        const user = store.getUserByToken(userApi[1]);
+        const user = await store.getUserByToken(userApi[1]);
         if (!user) return json(res, { error: "Not found" }, 404);
         return json(res, serializeUser(user));
       }
 
       const addPlaces = url.pathname.match(/^\/api\/u\/([^/]+)\/places$/);
       if (addPlaces && req.method === "POST") {
-        const user = store.getUserByToken(addPlaces[1]);
+        const user = await store.getUserByToken(addPlaces[1]);
         if (!user) return json(res, { error: "Not found" }, 404);
         const body = await readJson(req);
         const candidates = extractPlaces(body.text || "");
-        const result = store.addPlaces(user.id, candidates);
-        await store.save();
+        const result = await store.addPlaces(user.id, candidates);
         return json(res, {
           added: result.added,
           duplicates: result.duplicates,
@@ -50,7 +49,7 @@ export function createWebServer({ store, bot, webhookSecret }) {
         return file(res, "index.html", "text/html; charset=utf-8");
       }
 
-      if (url.pathname.startsWith("/public/")) {
+      if (url.pathname.startsWith("/public/") || ["/styles.css", "/app.js"].includes(url.pathname)) {
         const name = path.basename(url.pathname);
         const contentType = contentTypeFor(name);
         return file(res, name, contentType);

@@ -14,7 +14,7 @@ loadEnvFile(path.join(rootDir, ".env"));
 
 export const config = {
   botToken: process.env.BOT_TOKEN || "",
-  webappUrl: process.env.WEBAPP_URL || "http://127.0.0.1:8787",
+  webappUrl: process.env.WEBAPP_URL || vercelUrl() || "http://127.0.0.1:8787",
   host: process.env.HOST || "127.0.0.1",
   port: Number(process.env.PORT || 8787),
   dataFile: path.resolve(rootDir, process.env.DATA_FILE || "./data/store.json"),
@@ -22,7 +22,9 @@ export const config = {
   telegramMode: process.env.TELEGRAM_MODE || "polling",
   webhookSecret: process.env.TELEGRAM_WEBHOOK_SECRET || tokenSecret(process.env.BOT_TOKEN || ""),
   openaiApiKey: process.env.OPENAI_API_KEY || "",
-  openaiModel: process.env.OPENAI_MODEL || "gpt-4.1-mini"
+  openaiModel: process.env.OPENAI_MODEL || "gpt-4.1-mini",
+  supabaseUrl: process.env.SUPABASE_URL || "",
+  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || ""
 };
 
 function loadEnvFile(file) {
@@ -42,4 +44,9 @@ function loadEnvFile(file) {
 function tokenSecret(token) {
   if (!token) return "telegram-webhook";
   return crypto.createHash("sha256").update(token).digest("hex").slice(0, 32);
+}
+
+function vercelUrl() {
+  if (!process.env.VERCEL_URL) return "";
+  return `https://${process.env.VERCEL_URL}`;
 }
