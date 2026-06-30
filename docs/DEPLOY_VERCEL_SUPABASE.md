@@ -37,12 +37,14 @@ SUPABASE_URL=https://xxxxx.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=service_role_key
 ```
 
-Для AI/OCR:
+Опционально, для AI/OCR:
 
 ```text
 OPENAI_API_KEY=ключ OpenAI
 OPENAI_MODEL=gpt-4.1-mini
 ```
+
+Для бесплатного MVP можно не добавлять `OPENAI_API_KEY`. Тогда бот будет сохранять места из обычного текста и простых сообщений, но не будет полноценно распознавать текст на скринах, аудио Reels и сложные Instagram-подборки.
 
 После изменения env-переменных нужно сделать Redeploy.
 
